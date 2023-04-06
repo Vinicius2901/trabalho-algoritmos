@@ -1,44 +1,56 @@
 #include <stdio.h>
-#include<string.h>
+#include <string.h>
 
 int main ()
 {
-    char nome [250];
-    char data [250];
-    int animal;
-    int servico;
-    char pet [250];
-    float tot;
-    char ser [250];
-    char tam;
-    float pre;
-    int num;
-    char med [250];
-    char tel [250];
+    //Declaração de variáveis
+    char nome [250];//Nome do cliente
+    char data [250];//Data do serviço
+    char pet [250]; //Nome do animal
+    int animal;     //Tipo de animal
+    int servico;    //Entrada do serviço
+    float tot;      //Total a se pagar
+    char ser [250]; //Saída do serviço
+    char tam;       //Tamanho do pacote
+    float pre;      //Preço
+    int num;        //Número de ração
+    char med [250]; //Medicamento solicitado
+    char tel [250]; //Número de telefone
+
+
+    //Inputs
+
+    //Nome do cliente
     printf("Qual seu nome: ");
     fgets (nome, 250, stdin);
 
+    //Data da consulta
     printf ("Escreva a data da consulta: ");
     fgets (data, 250, stdin);
 
+    //Nome do pet
+    printf ("Qual o nome do seu pet?\n");
+    fgets (pet, 250, stdin);
+
+    //Tipo de animal
     printf ("Seu animal eh:\n");
     printf ("(1) Felino\n(2) Canino\n");
-    scanf ("%i", animal);
+    scanf ("%i", &animal);
 
+    //Tipo de serviço
     printf ("Servicos disponiveis:\n");
     printf ("(1) Vacina\n(2) Castracao\n(3) Venda de Racao\n(4) Medicamentos\n");
     scanf ("%i", &servico);
 
-    printf ("Qual o nome do seu pet?");
-    fgets (pet, 250, stdin);
     
+    //Casos
     switch (servico)
     {
-    case 1:
+    case 1://Vacina
         tot = 190;
-        ser = "Vacina";
+        strcpy (ser, "Vacina");
         break;
-    case 2: 
+    case 2://Castração
         if (animal == 1)
         {
             tot = 220;
@@ -47,11 +59,11 @@ int main ()
         {
             tot = 280;
         }
-        ser = "Castracao";
+        strcpy (ser, "Castracao");
         break;
-    case 3:
-        printf ("Tamanho da ração:\n(P) Pequeno \n(M) Medio \n (G) Grande");
-        scanf ("%c", tam);
+    case 3://Venda de ração
+        printf ("Tamanho da racao:\n(P) Pequeno \n(M) Medio \n(G) Grande\n");
+        scanf ("%c", &tam);
         if (tam == 'P')
         {
             pre = 30;
@@ -66,22 +78,23 @@ int main ()
         }
         printf ("Numero de pacotes:\n");
         scanf ("%i", &num);
+        
         tot = pre*num;
-        strcpy(ser, "Venda de racoes");
+        strcpy (ser, "Venda de racoes");
         break;
-    case 4:
+    case 4://Medicamento
         tot = 0;
-        ser = "Encomenda de medicamento";
-        printf ("Medicamento: ");
+        strcpy (ser, "Encomenda de medicamento");
+        printf ("Medicamento: \n");
         fgets (med, 250, stdin);
-        printf ("Numero de celular");
+        printf ("Numero de celular: ");
         fgets (tel, 250, stdin);
         break;
     default:
         break;
     }
     printf ("Cliente: %s", nome);
-    printf ("Servico: %s", ser);
+    printf ("Servico: %s\n", ser);
     switch (servico)
     {
     case 1:
