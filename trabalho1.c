@@ -32,6 +32,7 @@ int main ()
     printf ("Qual o nome do seu pet?\n");
     fgets (pet, 250, stdin);
 
+
     //Tipo de animal
     printf ("Seu animal eh:\n");
     printf ("(1) Felino\n(2) Canino\n");
@@ -62,8 +63,13 @@ int main ()
         strcpy (ser, "Castracao");
         break;
     case 3://Venda de ração
+        
         printf ("Tamanho da racao:\n(P) Pequeno \n(M) Medio \n(G) Grande\n");
-        scanf ("%c", &tam);
+        scanf (" %c", &tam);
+
+        printf ("Numero de pacotes:\n");
+        scanf (" %i", &num);
+
         if (tam == 'P')
         {
             pre = 30;
@@ -76,9 +82,6 @@ int main ()
         {
             pre = 120;
         }
-        printf ("Numero de pacotes:\n");
-        scanf ("%i", &num);
-        
         tot = pre*num;
         strcpy (ser, "Venda de racoes");
         break;
@@ -86,8 +89,10 @@ int main ()
         tot = 0;
         strcpy (ser, "Encomenda de medicamento");
         printf ("Medicamento: \n");
+        fflush (stdin);
         fgets (med, 250, stdin);
         printf ("Numero de celular: ");
+        fflush (stdin);
         fgets (tel, 250, stdin);
         break;
     default:
@@ -110,17 +115,23 @@ int main ()
         printf ("Data: %s", data);
         break;
     case 3:
-        printf ("%i unidade(s) de tamanho %s ... %f", num, tam, pre);
-        printf ("%f", tot);
+        printf ("%i unidade(s) de tamanho %c ... %f\n", num, tam, pre);
+        printf ("%f\n", tot);
         if (num > 1)
         {
             tot = tot*9/10;
-            printf ("Desconto: 10%");
+            printf ("Desconto: 10\n");
         }
+        else
+        {
+            printf ("Desconto: 0\n");
+        }
+        break;
     case 4:
         printf ("%s", med);
-        printf ("Contato: %s", tel);
-    
+        printf ("Contato: %s\n", tel);
+        break;
+
     default:
         break;
     }
