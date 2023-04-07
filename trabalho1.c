@@ -70,15 +70,15 @@ int main ()
         printf ("Numero de pacotes:\n");
         scanf (" %i", &num);
 
-        if (tam == 'P')
+        if (tam == 'P' || tam == 'p')
         {
             pre = 30;
         }
-        else if (tam == 'M')
+        else if (tam == 'M' || tam == 'm')
         {
             pre = 70;
         }
-        else if (tam == 'G')
+        else if (tam == 'G' || tam == 'g')
         {
             pre = 120;
         }
