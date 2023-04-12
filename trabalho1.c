@@ -3,55 +3,66 @@
 
 int main ()
 {
-    //Declaração de variáveis
-    char nome [250];//Nome do cliente
-    char data [250];//Data do serviço
-    char pet [250]; //Nome do animal
-    int animal;     //Tipo de animal
-    int servico;    //Entrada do serviço
-    float tot;      //Total a se pagar
-    char ser [250]; //Saída do serviço
-    char tam;       //Tamanho do pacote
-    float pre;      //Preço
-    int num;        //Número de ração
-    char med [250]; //Medicamento solicitado
-    char tel [250]; //Número de telefone
+    //Declaração de variáveis.
+    char nome [250];//Nome do cliente.
+    char data [250];//Data do serviço.
+    char pet [250]; //Nome do animal.
+    int animal;     //Tipo de animal.
+    int servico;    //Entrada do serviço.
+    float tot;      //Total a se pagar.
+    char ser [250]; //Saída do serviço.
+    char tam;       //Tamanho do pacote.
+    float pre;      //Preço.
+    int num;        //Número de ração.
+    char med [250]; //Medicamento solicitado.
+    char tel [250]; //Número de telefone.
 
 
-    //Inputs
+    //Inputs.
 
-    //Nome do cliente
+    //Nome do cliente.
     printf("Qual seu nome: ");
     fgets (nome, 250, stdin);
 
-    //Data da consulta
-    printf ("Escreva a data da consulta: ");
-    fgets (data, 250, stdin);
 
-    //Nome do pet
-    printf ("Qual o nome do seu pet?\n");
-    fgets (pet, 250, stdin);
-
-
-    //Tipo de animal
-    printf ("Seu animal eh:\n");
-    printf ("(1) Felino\n(2) Canino\n");
-    scanf ("%i", &animal);
-
-    //Tipo de serviço
+    //Tipo de serviço.
     printf ("Servicos disponiveis:\n");
     printf ("(1) Vacina\n(2) Castracao\n(3) Venda de Racao\n(4) Medicamentos\n");
     scanf ("%i", &servico);
 
     
-    //Casos
+    //Casos.
     switch (servico)
     {
-    case 1://Vacina
+    case 1://Vacina.
+        //Nome do pet.
+        fflush (stdin);
+        printf ("Qual o nome do seu pet?\n");
+        fgets (pet, 250, stdin);
+        //Tipo de animal.
+        printf ("Seu animal eh:\n");
+        printf ("(1) Felino\n(2) Canino\n");
+        scanf (" %i", &animal);
+        //Data da consulta.
+        printf ("Escreva a data da consulta: ");
+        fflush (stdin);
+        fgets (data, 250, stdin);
         tot = 190;
         strcpy (ser, "Vacina");
         break;
-    case 2://Castração
+    case 2://Castração.
+        //Nome do pet.
+        fflush (stdin);
+        printf ("Qual o nome do seu pet?\n");
+        fgets (pet, 250, stdin);
+        //Tipo de animal.
+        printf ("Seu animal eh:\n");
+        printf ("(1) Felino\n(2) Canino\n");
+        scanf (" %i", &animal);
+        //Data da consulta.
+        printf ("Escreva a data da consulta: ");
+        fflush (stdin);
+        fgets (data, 250, stdin);
         if (animal == 1)
         {
             tot = 220;
@@ -62,7 +73,7 @@ int main ()
         }
         strcpy (ser, "Castracao");
         break;
-    case 3://Venda de ração
+    case 3://Venda de ração.
         
         printf ("Tamanho da racao:\n(P) Pequeno \n(M) Medio \n(G) Grande\n");
         scanf (" %c", &tam);
@@ -85,7 +96,7 @@ int main ()
         tot = pre*num;
         strcpy (ser, "Venda de racoes");
         break;
-    case 4://Medicamento
+    case 4://Medicamento.
         tot = 0;
         strcpy (ser, "Encomenda de medicamento");
         printf ("Medicamento: \n");
@@ -137,7 +148,7 @@ int main ()
     }
     if (tot > 0)
     {
-        printf ("Total: %f", tot);
+        printf ("Total: R$%f", tot);
     }
     return 0;
 }
