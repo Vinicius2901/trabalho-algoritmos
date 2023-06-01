@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 int main ()
 {
@@ -11,11 +13,15 @@ int main ()
     int servico;    //Entrada do serviço.
     float tot;      //Total a se pagar.
     char ser [250]; //Saída do serviço.
-    char tam;       //Tamanho do pacote.
-    float pre;      //Preço.
+    char *tam;       //Tamanho do pacote.
+    float *pre;     //Preço.
     int num;        //Número de ração.
     char med [250]; //Medicamento solicitado.
     char tel [250]; //Número de telefone.
+    int i;          //Índice do vetor.
+    int pequena = 0, media = 0, grande = 0;
+    bool peq = false, medi = false, gra = false;
+    int locp, locm, locg;
 
 
     //Inputs.
@@ -74,26 +80,41 @@ int main ()
         strcpy (ser, "Castracao");
         break;
     case 3://Venda de ração.
-        
-        printf ("Tamanho da racao:\n(P) Pequeno \n(M) Medio \n(G) Grande\n");
-        scanf (" %c", &tam);
-
+        //Pegar o numero de pacotes.
         printf ("Numero de pacotes:\n");
         scanf (" %i", &num);
-
-        if (tam == 'P' || tam == 'p')
+        tot = 0;
+        //Tamanho do vetor número de rações.
+        pre = malloc(num*sizeof(int));
+        tam = malloc(num*sizeof(char));
+        //Preço da ração pequena/média/grande sendo armazenados em um vetor.
+        for (i = 0; i < num; i++)
         {
-            pre = 30;
+            printf ("Tamanho do pacote desejado:\n\n(P) Pequeno \n(M) Medio \n(G) Grande\n\n");
+            scanf (" %c", &tam[i]);
+            if (tam[i] == 'P' || tam[i] == 'p')
+            {
+                pre[i] = 30;
+                pequena++;
+                peq = true;
+                locp = i;
+            }
+            else if (tam[i] == 'M' || tam[i] == 'm')
+            {
+                pre[i] = 70;
+                media++;
+                medi = true;
+                locm = i;
+            }
+            else if (tam[i] == 'G' || tam[i] == 'g')
+            {
+                pre[i] = 120;
+                grande++;
+                gra = true;
+                locg = i;
+            }
+        tot += pre[i];
         }
-        else if (tam == 'M' || tam == 'm')
-        {
-            pre = 70;
-        }
-        else if (tam == 'G' || tam == 'g')
-        {
-            pre = 120;
-        }
-        tot = pre*num;
         strcpy (ser, "Venda de racoes");
         break;
     case 4://Medicamento.
@@ -126,16 +147,27 @@ int main ()
         printf ("Data: %s", data);
         break;
     case 3:
-        printf ("%i unidade(s) de tamanho %c ... %f\n", num, tam, pre);
+        if (peq == true)
+        {
+            printf ("%i unidade(s) de tamanho %c ... %f\n", pequena, tam[locp], pre[locp]);
+        }
+        if (medi == true)
+        {
+            printf ("%i unidade(s) de tamanho %c ... %f\n", media, tam[locm], pre[locm]);
+        }
+        if (gra == true)
+        {
+            printf ("%i unidade(s) de tamanho %c ... %f\n", grande, tam[locg], pre[locg]);
+        }
         printf ("%f\n", tot);
         if (num > 1)
         {
             tot = tot*9/10;
-            printf ("Desconto: 10\n");
+            printf ("Desconto: 10%%\n");
         }
         else
         {
-            printf ("Desconto: 0\n");
+            printf ("Desconto: 0%%\n");
         }
         break;
     case 4:
@@ -148,7 +180,7 @@ int main ()
     }
     if (tot > 0)
     {
-        printf ("Total: R$%f", tot);
+        printf ("Total: R$%.2f\n", tot);
     }
     return 0;
 }
