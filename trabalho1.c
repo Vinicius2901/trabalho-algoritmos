@@ -23,7 +23,7 @@ int main ()
     bool peq = false, medi = false, gra = false;
     int locp, locm, locg;
 
-
+    
     //Inputs.
 
     //Nome do cliente.
@@ -90,7 +90,7 @@ int main ()
         //Preço da ração pequena/média/grande sendo armazenados em um vetor.
         for (i = 0; i < num; i++)
         {
-            printf ("Tamanho do pacote desejado:\n\n(P) Pequeno \n(M) Medio \n(G) Grande\n\n");
+            printf ("Tamanho do pacote desejado (%i):\n\n(P) Pequeno \n(M) Medio \n(G) Grande\n\n", i+1);
             scanf (" %c", &tam[i]);
             if (tam[i] == 'P' || tam[i] == 'p')
             {
