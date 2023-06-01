@@ -130,7 +130,7 @@ int main ()
     default:
         break;
     }
-    printf ("Cliente: %s", nome);
+    printf ("\n\nCliente: %s", nome);
     printf ("Servico: %s\n", ser);
     switch (servico)
     {
@@ -149,15 +149,15 @@ int main ()
     case 3:
         if (peq == true)
         {
-            printf ("%i unidade(s) de tamanho %c ... %f\n", pequena, tam[locp], pre[locp]);
+            printf ("%i unidade(s) de tamanho %c ... %.2f\n", pequena, tam[locp], pre[locp]);
         }
         if (medi == true)
         {
-            printf ("%i unidade(s) de tamanho %c ... %f\n", media, tam[locm], pre[locm]);
+            printf ("%i unidade(s) de tamanho %c ... %.2f\n", media, tam[locm], pre[locm]);
         }
         if (gra == true)
         {
-            printf ("%i unidade(s) de tamanho %c ... %f\n", grande, tam[locg], pre[locg]);
+            printf ("%i unidade(s) de tamanho %c ... %.2f\n", grande, tam[locg], pre[locg]);
         }
         printf ("%f\n", tot);
         if (num > 1)
