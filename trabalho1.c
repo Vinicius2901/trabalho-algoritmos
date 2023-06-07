@@ -1,7 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdbool.h>
+#include <ctype.h>
+
+void menu ();
+void imprimirVendaRacao(int pequena, char tamPequena, float precoPequena,
+                        int media, char tamMedia, float precoMedia,
+                        int grande, char tamGrande, float precoGrande,
+                        float *total, int quantidade);
+
+void imprimirCastracao(int type, char nome[250], char dia[250]);
 
 int main ()
 {
@@ -11,16 +19,15 @@ int main ()
     char pet [250]; //Nome do animal.
     int animal;     //Tipo de animal.
     int servico;    //Entrada do serviço.
-    float tot;      //Total a se pagar.
+    float tot = 0;      //Total a se pagar.
     char ser [250]; //Saída do serviço.
-    char *tam;       //Tamanho do pacote.
+    char *tam;      //Tamanho do pacote.
     float *pre;     //Preço.
     int num;        //Número de ração.
     char med [250]; //Medicamento solicitado.
     char tel [250]; //Número de telefone.
     int i;          //Índice do vetor.
     int pequena = 0, media = 0, grande = 0;
-    bool peq = false, medi = false, gra = false;
     int locp, locm, locg;
 
     
@@ -29,12 +36,12 @@ int main ()
     //Nome do cliente.
     printf("Qual seu nome: ");
     fgets (nome, 250, stdin);
+    setbuf (stdin, 0);
 
 
     //Tipo de serviço.
-    printf ("Servicos disponiveis:\n");
-    printf ("(1) Vacina\n(2) Castracao\n(3) Venda de Racao\n(4) Medicamentos\n");
-    scanf ("%i", &servico);
+    menu ();
+    scanf (" %i", &servico);
 
     
     //Casos.
@@ -42,23 +49,23 @@ int main ()
     {
     case 1://Vacina.
         //Nome do pet.
-        fflush (stdin);
-        printf ("Qual o nome do seu pet?\n");
-        fgets (pet, 250, stdin);
+        setbuf (stdin, 0);
+        printf("Qual o nome do seu pet?\n");
+        fgets(pet, 250, stdin);
         //Tipo de animal.
-        printf ("Seu animal eh:\n");
-        printf ("(1) Felino\n(2) Canino\n");
-        scanf (" %i", &animal);
+        printf("Seu animal eh:\n");
+        printf("(1) Felino\n(2) Canino\n");
+        scanf(" %i", &animal);
         //Data da consulta.
-        printf ("Escreva a data da consulta: ");
-        fflush (stdin);
-        fgets (data, 250, stdin);
+        printf("Escreva a data da consulta: ");
+        setbuf (stdin, 0);
+        fgets(data, 250, stdin);
         tot = 190;
-        strcpy (ser, "Vacina");
-        break;
+        strcpy(ser, "Vacina");
+    break;
     case 2://Castração.
         //Nome do pet.
-        fflush (stdin);
+        setbuf (stdin, 0);
         printf ("Qual o nome do seu pet?\n");
         fgets (pet, 250, stdin);
         //Tipo de animal.
@@ -67,7 +74,7 @@ int main ()
         scanf (" %i", &animal);
         //Data da consulta.
         printf ("Escreva a data da consulta: ");
-        fflush (stdin);
+        setbuf (stdin, 0);
         fgets (data, 250, stdin);
         if (animal == 1)
         {
@@ -83,34 +90,31 @@ int main ()
         //Pegar o numero de pacotes.
         printf ("Numero de pacotes:\n");
         scanf (" %i", &num);
-        tot = 0;
         //Tamanho do vetor número de rações.
         pre = malloc(num*sizeof(int));
         tam = malloc(num*sizeof(char));
         //Preço da ração pequena/média/grande sendo armazenados em um vetor.
         for (i = 0; i < num; i++)
         {
-            printf ("Tamanho do pacote desejado (%i):\n\n(P) Pequeno \n(M) Medio \n(G) Grande\n\n", i+1);
+            printf ("\nTamanho do pacote desejado (%i):\n\n(P) Pequeno \n(M) Medio \n(G) Grande\n\n", i+1);
             scanf (" %c", &tam[i]);
-            if (tam[i] == 'P' || tam[i] == 'p')
+            tam[i] = toupper (tam[i]);
+            if (tam[i] == 'P')
             {
                 pre[i] = 30;
                 pequena++;
-                peq = true;
                 locp = i;
             }
-            else if (tam[i] == 'M' || tam[i] == 'm')
+            else if (tam[i] == 'M')
             {
                 pre[i] = 70;
                 media++;
-                medi = true;
                 locm = i;
             }
-            else if (tam[i] == 'G' || tam[i] == 'g')
+            else if (tam[i] == 'G')
             {
                 pre[i] = 120;
                 grande++;
-                gra = true;
                 locg = i;
             }
         tot += pre[i];
@@ -118,13 +122,12 @@ int main ()
         strcpy (ser, "Venda de racoes");
         break;
     case 4://Medicamento.
-        tot = 0;
         strcpy (ser, "Encomenda de medicamento");
         printf ("Medicamento: \n");
-        fflush (stdin);
+        setbuf (stdin, 0);
         fgets (med, 250, stdin);
         printf ("Numero de celular: ");
-        fflush (stdin);
+        setbuf (stdin, 0);
         fgets (tel, 250, stdin);
         break;
     default:
@@ -134,41 +137,14 @@ int main ()
     printf ("Servico: %s\n", ser);
     switch (servico)
     {
-    case 1:
-    case 2:
-        if (animal == 1)
-        {
-            printf ("Felino: %s", pet);
-        }
-        else
-        {
-            printf ("Canino: %s", pet);
-        }
-        printf ("Data: %s", data);
+    case 1 ... 2:
+        imprimirCastracao(animal, pet, data);
         break;
     case 3:
-        if (peq == true)
-        {
-            printf ("%i unidade(s) de tamanho %c ... %.2f\n", pequena, tam[locp], pre[locp]);
-        }
-        if (medi == true)
-        {
-            printf ("%i unidade(s) de tamanho %c ... %.2f\n", media, tam[locm], pre[locm]);
-        }
-        if (gra == true)
-        {
-            printf ("%i unidade(s) de tamanho %c ... %.2f\n", grande, tam[locg], pre[locg]);
-        }
-        printf ("%f\n", tot);
-        if (num > 1)
-        {
-            tot = tot*9/10;
-            printf ("Desconto: 10%%\n");
-        }
-        else
-        {
-            printf ("Desconto: 0%%\n");
-        }
+        imprimirVendaRacao(pequena, tam[locp], pre[locp],
+                       media, tam[locm], pre[locm],
+                       grande, tam[locg], pre[locg],
+                       &tot, num);
         break;
     case 4:
         printf ("%s", med);
@@ -183,4 +159,56 @@ int main ()
         printf ("Total: R$%.2f\n", tot);
     }
     return 0;
+}
+
+void menu ()
+{
+    printf ("\nServicos disponiveis: \n");
+    printf ("\n(1) Vacina\n");
+    printf ("(2) Castracao\n");
+    printf ("(3) Venda de racao\n");
+    printf ("(4) Medicamentos\n");
+    printf ("\nDigite uma das opcoes: ");
+}
+
+void imprimirVendaRacao(int pequena, char tamPequena, float precoPequena,
+                        int media, char tamMedia, float precoMedia,
+                        int grande, char tamGrande, float precoGrande,
+                        float *total, int quantidade)
+{
+    if (pequena > 0)
+    {
+        printf("%i unidade(s) de tamanho %c ... %.2f\n", pequena, tamPequena, precoPequena);
+    }
+    if (media > 0)
+    {
+        printf("%i unidade(s) de tamanho %c ... %.2f\n", media, tamMedia, precoMedia);
+    }
+    if (grande > 0)
+    {
+        printf("%i unidade(s) de tamanho %c ... %.2f\n", grande, tamGrande, precoGrande);
+    }
+    printf("%.2f\n", *total);
+    if (quantidade > 1)
+    {
+        *total = *total * 9 / 10;
+        printf("Desconto: 10%%\n");
+    }
+    else
+    {
+        printf("Desconto: 0%%\n");
+    }
+}
+
+void imprimirCastracao(int type, char nome[250], char dia[250])
+{
+    if (type == 1)
+    {
+        printf ("Felino: %s", nome);
+    }
+    else
+    {
+        printf ("Canino: %s", nome);
+    }
+    printf ("Data: %s", dia);
 }
