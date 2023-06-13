@@ -2,14 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
-
-void menu ();
-void imprimirVendaRacao(int pequena, char tamPequena, float precoPequena,
-                        int media, char tamMedia, float precoMedia,
-                        int grande, char tamGrande, float precoGrande,
-                        float *total, int quantidade);
-
-void imprimirCastracao(int type, char nome[250], char dia[250]);
+#include "clinica.h"
 
 int main ()
 {
@@ -19,16 +12,16 @@ int main ()
     char pet [250]; //Nome do animal.
     int animal;     //Tipo de animal.
     int servico;    //Entrada do serviço.
-    float tot = 0;      //Total a se pagar.
+    float tot = 0;  //Total a se pagar.
     char ser [250]; //Saída do serviço.
     char *tam;      //Tamanho do pacote.
-    float *pre;     //Preço.
+    float *pre;     //Preço
     int num;        //Número de ração.
     char med [250]; //Medicamento solicitado.
     char tel [250]; //Número de telefone.
     int i;          //Índice do vetor.
     int pequena = 0, media = 0, grande = 0;
-    int locp, locm, locg;
+    int locp = -1, locm = -1, locg = -1;
 
     
     //Inputs.
@@ -89,10 +82,17 @@ int main ()
     case 3://Venda de ração.
         //Pegar o numero de pacotes.
         printf ("Numero de pacotes:\n");
-        scanf (" %i", &num);
+        do
+        {
+            scanf (" %i", &num);
+        } while (num < 0);
+        
+
+        //Mudança no original.
+
         //Tamanho do vetor número de rações.
-        pre = malloc(num*sizeof(int));
-        tam = malloc(num*sizeof(char));
+        pre = malloc(num*sizeof(float));
+        tam = malloc(num*sizeof(char) + 1);
         //Preço da ração pequena/média/grande sendo armazenados em um vetor.
         for (i = 0; i < num; i++)
         {
@@ -117,8 +117,11 @@ int main ()
                 grande++;
                 locg = i;
             }
-        tot += pre[i];
+            tot += pre[i];
         }
+
+        //Fim da mudança.
+        
         strcpy (ser, "Venda de racoes");
         break;
     case 4://Medicamento.
@@ -159,56 +162,4 @@ int main ()
         printf ("Total: R$%.2f\n", tot);
     }
     return 0;
-}
-
-void menu ()
-{
-    printf ("\nServicos disponiveis: \n");
-    printf ("\n(1) Vacina\n");
-    printf ("(2) Castracao\n");
-    printf ("(3) Venda de racao\n");
-    printf ("(4) Medicamentos\n");
-    printf ("\nDigite uma das opcoes: ");
-}
-
-void imprimirVendaRacao(int pequena, char tamPequena, float precoPequena,
-                        int media, char tamMedia, float precoMedia,
-                        int grande, char tamGrande, float precoGrande,
-                        float *total, int quantidade)
-{
-    if (pequena > 0)
-    {
-        printf("%i unidade(s) de tamanho %c ... %.2f\n", pequena, tamPequena, precoPequena);
-    }
-    if (media > 0)
-    {
-        printf("%i unidade(s) de tamanho %c ... %.2f\n", media, tamMedia, precoMedia);
-    }
-    if (grande > 0)
-    {
-        printf("%i unidade(s) de tamanho %c ... %.2f\n", grande, tamGrande, precoGrande);
-    }
-    printf("%.2f\n", *total);
-    if (quantidade > 1)
-    {
-        *total = *total * 9 / 10;
-        printf("Desconto: 10%%\n");
-    }
-    else
-    {
-        printf("Desconto: 0%%\n");
-    }
-}
-
-void imprimirCastracao(int type, char nome[250], char dia[250])
-{
-    if (type == 1)
-    {
-        printf ("Felino: %s", nome);
-    }
-    else
-    {
-        printf ("Canino: %s", nome);
-    }
-    printf ("Data: %s", dia);
 }
